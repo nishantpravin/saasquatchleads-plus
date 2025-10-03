@@ -7,3 +7,15 @@ rapidfuzz>=3.0.0
 dnspython>=2.4.0
 python-dateutil>=2.8.0
 lxml>=4.9.0
+python-dotenv>=1.0.0
+ratelimit>=2.2.0
+tenacity>=8.0.0
+spacy>=3.4.0
+Wappalyzer>=0.3.0
+requests>=2.25.0
+simple-salesforce>=1.10.0
+hubspot-api-client>=7.0.0
+aiodns>=3.0.0
+aiosmtplib>=2.0.0
+
+# NOTE: After install, run: python -m spacy download en_core_web_sm
