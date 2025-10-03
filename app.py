@@ -268,56 +268,56 @@ if run and domains:
         progress_bar.progress((i + 1) / total_domains)
         
         try:
-        bundle = fetch_site_bundle(url)
+            bundle = fetch_site_bundle(url)
 
-        # Enrich (local)
-        company = enrich_company(bundle)
+            # Enrich (local)
+            company = enrich_company(bundle)
 
-        # Optional Wappalyzer/Firmographics
-        wapp_data, w_status = (None, "skip")
-        if do_wapp:
-            wapp_data, w_status = wappalyzer_enrich(bundle.get("base_url"))
-        firmo, f_status = (None, "skip")
-        if do_firmo and company.get("domain"):
-            firmo, f_status = firmographics_enrich(company.get("domain"))
+            # Optional Wappalyzer/Firmographics
+            wapp_data, w_status = (None, "skip")
+            if do_wapp:
+                wapp_data, w_status = wappalyzer_enrich(bundle.get("base_url"))
+            firmo, f_status = (None, "skip")
+            if do_firmo and company.get("domain"):
+                firmo, f_status = firmographics_enrich(company.get("domain"))
 
-        # Parse people/emails using enhanced NER+heuristics
-        found_people, found_emails = extract_people_and_emails(bundle)
+            # Parse people/emails using enhanced NER+heuristics
+            found_people, found_emails = extract_people_and_emails(bundle)
 
-        # Pattern inference & candidates
-        pattern_info = infer_patterns(found_emails, company.get("domain"))
+            # Pattern inference & candidates
+            pattern_info = infer_patterns(found_emails, company.get("domain"))
 
-        candidates = []
-        for p in found_people:
-            if any(r.lower() in (p.get("role","").lower()) for r in [r.lower() for r in target_roles]):
-                candidates.extend(generate_candidates(p, company.get("domain"), pattern_info))
+            candidates = []
+            for p in found_people:
+                if any(r.lower() in (p.get("role","").lower()) for r in [r.lower() for r in target_roles]):
+                    candidates.extend(generate_candidates(p, company.get("domain"), pattern_info))
 
-        # MX (cheap)
-        mx_ok = check_mx(company.get("domain"))
+            # MX (cheap)
+            mx_ok = check_mx(company.get("domain"))
 
-        # Combine + dedupe
-        all_people = found_people + candidates
-        all_people = dedupe_people(all_people)
+            # Combine + dedupe
+            all_people = found_people + candidates
+            all_people = dedupe_people(all_people)
 
-        # Score
-        scored = score_leads(all_people, mx_ok=mx_ok, signals=company, pattern=pattern_info)
+            # Score
+            scored = score_leads(all_people, mx_ok=mx_ok, signals=company, pattern=pattern_info)
 
-        for s in scored:
-            s["company_name"] = company.get("name")
-            s["company_domain"] = company.get("domain")
-            techs = company.get("tech_stack", [])[:6]
-            s["tech_summary"] = ", ".join(techs)
-            s["mx_ok"] = mx_ok
-            s["pattern"] = pattern_info.get("best_pattern")
-            s["wappalyzer_status"] = w_status
-            s["firmographics_status"] = f_status
-            if firmo:
-                s["firmo_size"] = firmo.get("size")
-                s["firmo_employees"] = firmo.get("employees")
-                s["firmo_founded_year"] = firmo.get("founded_year")
-                s["firmo_hq_country"] = firmo.get("hq_country")
-                s["firmo_linkedin"] = firmo.get("linkedin")
-            rows.append(s)
+            for s in scored:
+                s["company_name"] = company.get("name")
+                s["company_domain"] = company.get("domain")
+                techs = company.get("tech_stack", [])[:6]
+                s["tech_summary"] = ", ".join(techs)
+                s["mx_ok"] = mx_ok
+                s["pattern"] = pattern_info.get("best_pattern")
+                s["wappalyzer_status"] = w_status
+                s["firmographics_status"] = f_status
+                if firmo:
+                    s["firmo_size"] = firmo.get("size")
+                    s["firmo_employees"] = firmo.get("employees")
+                    s["firmo_founded_year"] = firmo.get("founded_year")
+                    s["firmo_hq_country"] = firmo.get("hq_country")
+                    s["firmo_linkedin"] = firmo.get("linkedin")
+                rows.append(s)
                 
         except Exception as e:
             st.error(f"❌ Error processing {url}: {str(e)}")
