@@ -16,75 +16,408 @@ from core.crm import push_hubspot_contacts, push_salesforce_leads
 
 load_dotenv()
 
-# Custom CSS for better UI
+# Revolutionary CSS Design - Like Nothing You've Seen Before
 st.markdown("""
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+    
+    * {
+        font-family: 'Inter', sans-serif;
+    }
+    
+    .main-container {
+        background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%);
+        min-height: 100vh;
+        padding: 0;
+        margin: 0;
+    }
+    
     .main-header {
-        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-        padding: 2rem;
-        border-radius: 10px;
-        margin-bottom: 2rem;
+        background: linear-gradient(135deg, #ff006e 0%, #8338ec 25%, #3a86ff 50%, #06ffa5 75%, #ffbe0b 100%);
+        background-size: 400% 400%;
+        animation: gradientShift 8s ease infinite;
+        padding: 3rem 2rem;
+        border-radius: 20px;
+        margin-bottom: 3rem;
         text-align: center;
         color: white;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 20px 40px rgba(255, 0, 110, 0.3);
     }
+    
+    .main-header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.05)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+        opacity: 0.3;
+    }
+    
+    .main-header h1 {
+        font-size: 3.5rem;
+        font-weight: 900;
+        margin: 0;
+        text-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+        position: relative;
+        z-index: 1;
+    }
+    
+    .main-header h3 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin: 1rem 0;
+        opacity: 0.95;
+        position: relative;
+        z-index: 1;
+    }
+    
+    @keyframes gradientShift {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+    
     .feature-card {
-        background: #f8f9fa;
-        padding: 1.5rem;
-        border-radius: 10px;
-        border-left: 4px solid #667eea;
-        margin: 1rem 0;
+        background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        padding: 2rem;
+        border-radius: 20px;
+        margin: 1.5rem 0;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
     }
-    .status-success {
-        background: #d4edda;
-        color: #155724;
-        padding: 0.5rem;
-        border-radius: 5px;
-        border-left: 4px solid #28a745;
+    
+    .feature-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(255, 0, 110, 0.2);
+        border-color: rgba(255, 0, 110, 0.5);
     }
-    .status-warning {
-        background: #fff3cd;
-        color: #856404;
-        padding: 0.5rem;
-        border-radius: 5px;
-        border-left: 4px solid #ffc107;
+    
+    .feature-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+        transition: left 0.5s ease;
     }
-    .status-error {
-        background: #f8d7da;
-        color: #721c24;
-        padding: 0.5rem;
-        border-radius: 5px;
-        border-left: 4px solid #dc3545;
+    
+    .feature-card:hover::before {
+        left: 100%;
     }
+    
+    .feature-card h4 {
+        color: #fff;
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin: 0 0 0.5rem 0;
+        background: linear-gradient(45deg, #ff006e, #8338ec);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    
+    .feature-card p {
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 1rem;
+        margin: 0;
+    }
+    
     .metric-card {
-        background: white;
-        padding: 1rem;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        padding: 2rem;
+        border-radius: 20px;
         text-align: center;
-        margin: 0.5rem 0;
+        margin: 1rem 0;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
     }
+    
+    .metric-card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 15px 30px rgba(131, 56, 236, 0.3);
+    }
+    
+    .metric-card h3 {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 1rem;
+        font-weight: 600;
+        margin: 0 0 1rem 0;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    
+    .metric-card h2 {
+        color: #fff;
+        font-size: 2.5rem;
+        font-weight: 800;
+        margin: 0;
+        text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+    }
+    
     .section-header {
-        background: #667eea;
+        background: linear-gradient(135deg, #ff006e 0%, #8338ec 100%);
         color: white;
-        padding: 0.75rem 1rem;
-        border-radius: 5px;
-        margin: 1rem 0 0.5rem 0;
-        font-weight: bold;
+        padding: 1.5rem 2rem;
+        border-radius: 15px;
+        margin: 2rem 0 1rem 0;
+        font-weight: 700;
+        font-size: 1.3rem;
+        text-align: center;
+        box-shadow: 0 10px 25px rgba(255, 0, 110, 0.3);
+        position: relative;
+        overflow: hidden;
     }
+    
+    .section-header::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+        transform: translateX(-100%);
+        animation: shimmer 2s infinite;
+    }
+    
+    @keyframes shimmer {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(100%); }
+    }
+    
     .consent-box {
-        background: #e3f2fd;
-        border: 2px solid #2196f3;
-        border-radius: 8px;
-        padding: 1rem;
-        margin: 1rem 0;
+        background: linear-gradient(145deg, rgba(6, 255, 165, 0.1), rgba(6, 255, 165, 0.05));
+        backdrop-filter: blur(15px);
+        border: 2px solid rgba(6, 255, 165, 0.3);
+        border-radius: 15px;
+        padding: 2rem;
+        margin: 1.5rem 0;
+        position: relative;
+        overflow: hidden;
     }
+    
+    .consent-box::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(circle at 30% 20%, rgba(6, 255, 165, 0.1) 0%, transparent 50%);
+    }
+    
     .config-section {
-        background: #f5f5f5;
+        background: linear-gradient(145deg, rgba(58, 134, 255, 0.1), rgba(58, 134, 255, 0.05));
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(58, 134, 255, 0.2);
+        padding: 2rem;
+        border-radius: 15px;
+        margin: 1.5rem 0;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .config-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(circle at 70% 30%, rgba(58, 134, 255, 0.1) 0%, transparent 50%);
+    }
+    
+    .status-success {
+        background: linear-gradient(145deg, rgba(6, 255, 165, 0.2), rgba(6, 255, 165, 0.1));
+        color: #06ffa5;
         padding: 1rem;
-        border-radius: 8px;
-        margin: 1rem 0;
+        border-radius: 10px;
+        border-left: 4px solid #06ffa5;
+        backdrop-filter: blur(10px);
+    }
+    
+    .status-warning {
+        background: linear-gradient(145deg, rgba(255, 190, 11, 0.2), rgba(255, 190, 11, 0.1));
+        color: #ffbe0b;
+        padding: 1rem;
+        border-radius: 10px;
+        border-left: 4px solid #ffbe0b;
+        backdrop-filter: blur(10px);
+    }
+    
+    .status-error {
+        background: linear-gradient(145deg, rgba(255, 0, 110, 0.2), rgba(255, 0, 110, 0.1));
+        color: #ff006e;
+        padding: 1rem;
+        border-radius: 10px;
+        border-left: 4px solid #ff006e;
+        backdrop-filter: blur(10px);
+    }
+    
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+        background: linear-gradient(135deg, #ff006e, #8338ec);
+        border-radius: 10px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(135deg, #8338ec, #3a86ff);
+    }
+    
+    /* Floating particles effect */
+    .particles {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: -1;
+    }
+    
+    .particle {
+        position: absolute;
+        width: 2px;
+        height: 2px;
+        background: rgba(255, 255, 255, 0.5);
+        border-radius: 50%;
+        animation: float 6s infinite linear;
+    }
+    
+    @keyframes float {
+        0% {
+            transform: translateY(100vh) rotate(0deg);
+            opacity: 0;
+        }
+        10% {
+            opacity: 1;
+        }
+        90% {
+            opacity: 1;
+        }
+        100% {
+            transform: translateY(-100px) rotate(360deg);
+            opacity: 0;
+        }
+    }
+    
+    /* Glassmorphism buttons */
+    .stButton > button {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 15px;
+        color: white;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 8px 32px rgba(255, 0, 110, 0.1);
+    }
+    
+    .stButton > button:hover {
+        background: linear-gradient(135deg, rgba(255, 0, 110, 0.3), rgba(131, 56, 236, 0.3));
+        transform: translateY(-2px);
+        box-shadow: 0 15px 40px rgba(255, 0, 110, 0.3);
+    }
+    
+    /* Input styling */
+    .stTextInput > div > div > input,
+    .stTextArea > div > div > textarea,
+    .stSelectbox > div > div > select {
+        background: rgba(255, 255, 255, 0.1) !important;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        border-radius: 10px !important;
+        color: white !important;
+    }
+    
+    .stTextInput > div > div > input:focus,
+    .stTextArea > div > div > textarea:focus {
+        border-color: #ff006e !important;
+        box-shadow: 0 0 20px rgba(255, 0, 110, 0.3) !important;
+    }
+    
+    /* Checkbox styling */
+    .stCheckbox > label > div[data-testid="stMarkdownContainer"] > p {
+        color: rgba(255, 255, 255, 0.9) !important;
+        font-weight: 500;
+    }
+    
+    /* Multiselect styling */
+    .stMultiSelect > div > div > div {
+        background: rgba(255, 255, 255, 0.1) !important;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        border-radius: 10px !important;
+    }
+    
+    /* Slider styling */
+    .stSlider > div > div > div > div {
+        background: linear-gradient(90deg, #ff006e, #8338ec) !important;
+    }
+    
+    /* Progress bar styling */
+    .stProgress > div > div > div > div {
+        background: linear-gradient(90deg, #ff006e, #8338ec, #3a86ff, #06ffa5) !important;
+    }
+    
+    /* Dataframe styling */
+    .dataframe {
+        background: rgba(255, 255, 255, 0.05) !important;
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        border-radius: 15px !important;
+    }
+    
+    /* Hide Streamlit branding */
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    header {visibility: hidden;}
+    
+    /* Custom animations */
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+    }
+    
+    .pulse {
+        animation: pulse 2s infinite;
     }
 </style>
+
+<!-- Floating Particles -->
+<div class="particles">
+    <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
+    <div class="particle" style="left: 20%; animation-delay: 1s;"></div>
+    <div class="particle" style="left: 30%; animation-delay: 2s;"></div>
+    <div class="particle" style="left: 40%; animation-delay: 3s;"></div>
+    <div class="particle" style="left: 50%; animation-delay: 4s;"></div>
+    <div class="particle" style="left: 60%; animation-delay: 5s;"></div>
+    <div class="particle" style="left: 70%; animation-delay: 0.5s;"></div>
+    <div class="particle" style="left: 80%; animation-delay: 1.5s;"></div>
+    <div class="particle" style="left: 90%; animation-delay: 2.5s;"></div>
+</div>
 """, unsafe_allow_html=True)
 
 st.set_page_config(
@@ -94,48 +427,48 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Header Section
+# Revolutionary Header Section
 st.markdown("""
 <div class="main-header">
     <h1>🚀 SaaSquatchLeads+ Pro</h1>
-    <h3>AI-Powered Lead Enrichment & Verification Platform</h3>
-    <p>Extract • Enrich • Verify • Push to CRM</p>
+    <h3>✨ AI-Powered Lead Enrichment & Verification Platform ✨</h3>
+    <p style="font-size: 1.2rem; margin-top: 1rem; opacity: 0.9;">🔮 Extract • 🧠 Enrich • ⚡ Verify • 🎯 Push</p>
 </div>
 """, unsafe_allow_html=True)
 
-# Features Overview
+# Revolutionary Features Overview
 col1, col2, col3, col4 = st.columns(4)
 with col1:
     st.markdown("""
     <div class="feature-card">
-        <h4>🧠 AI NER</h4>
-        <p>spaCy-powered name/role extraction</p>
+        <h4>🧠 Neural AI</h4>
+        <p>Advanced spaCy-powered intelligence</p>
     </div>
     """, unsafe_allow_html=True)
 with col2:
     st.markdown("""
     <div class="feature-card">
-        <h4>🔌 API Enrich</h4>
-        <p>Wappalyzer & Firmographics</p>
+        <h4>🔮 Quantum Enrich</h4>
+        <p>Wappalyzer & Firmographics APIs</p>
     </div>
     """, unsafe_allow_html=True)
 with col3:
     st.markdown("""
     <div class="feature-card">
-        <h4>📧 SMTP Verify</h4>
-        <p>Rate-limited with consent</p>
+        <h4>⚡ Lightning Verify</h4>
+        <p>Ultra-fast SMTP validation</p>
     </div>
     """, unsafe_allow_html=True)
 with col4:
     st.markdown("""
     <div class="feature-card">
-        <h4>🎯 CRM Push</h4>
-        <p>HubSpot & Salesforce</p>
+        <h4>🎯 Precision Push</h4>
+        <p>Direct CRM integration</p>
     </div>
     """, unsafe_allow_html=True)
 
 # Main Input Section
-st.markdown('<div class="section-header">📥 Data Input</div>', unsafe_allow_html=True)
+st.markdown('<div class="section-header">🔮 Quantum Data Input Portal</div>', unsafe_allow_html=True)
 
 input_mode = st.radio(
     "Choose input method:", 
@@ -148,7 +481,7 @@ domains = []
 if input_mode == "📋 Paste URLs":
     st.markdown("**Enter company URLs (one per line):**")
     urls_text = st.text_area(
-        "", 
+        "Company URLs", 
         height=120, 
         placeholder="https://example.com\nhttps://another-company.io\nhttps://startup.co",
         help="Paste company homepage URLs to analyze"
@@ -174,7 +507,7 @@ else:
             st.error(f"❌ Error reading CSV: {str(e)}")
 
 # Configuration Section
-st.markdown('<div class="section-header">⚙️ Configuration</div>', unsafe_allow_html=True)
+st.markdown('<div class="section-header">⚡ Neural Configuration Matrix</div>', unsafe_allow_html=True)
 
 col1, col2 = st.columns([1, 1])
 
@@ -240,7 +573,7 @@ with col2:
     st.markdown('</div>', unsafe_allow_html=True)
 
 # Action Button
-st.markdown('<div class="section-header">🚀 Execute</div>', unsafe_allow_html=True)
+st.markdown('<div class="section-header">🚀 Quantum Execution Protocol</div>', unsafe_allow_html=True)
 
 if domains:
     col1, col2, col3 = st.columns([1, 2, 1])
@@ -476,11 +809,13 @@ if run and domains:
     else:
         st.markdown('<div class="status-warning">⚠️ No leads found. Try different sites or broaden target roles.</div>', unsafe_allow_html=True)
 
-# Footer
+# Revolutionary Footer
 st.markdown("---")
 st.markdown("""
-<div style="text-align: center; color: #666; padding: 1rem;">
-    <p>💡 <strong>Pro Tips:</strong> Set up API keys in <code>.env</code> file for enhanced features</p>
-    <p>🔧 For NER: Run <code>python -m spacy download en_core_web_sm</code></p>
+<div style="text-align: center; color: rgba(255, 255, 255, 0.7); padding: 2rem; background: linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02)); border-radius: 20px; margin-top: 2rem;">
+    <h4 style="color: #06ffa5; margin-bottom: 1rem;">🔮 Quantum Pro Tips</h4>
+    <p style="margin: 0.5rem 0;">💫 <strong>Enhanced Mode:</strong> Set up API keys in <code style="background: rgba(255, 0, 110, 0.2); color: #ff006e; padding: 0.2rem 0.5rem; border-radius: 5px;">.env</code> file for maximum power</p>
+    <p style="margin: 0.5rem 0;">🧠 <strong>Neural Boost:</strong> Run <code style="background: rgba(131, 56, 236, 0.2); color: #8338ec; padding: 0.2rem 0.5rem; border-radius: 5px;">python -m spacy download en_core_web_sm</code></p>
+    <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.8;">✨ Powered by Advanced AI • Built for the Future ✨</p>
 </div>
 """, unsafe_allow_html=True)
